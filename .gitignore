@@ -1,0 +1,13 @@
+# Ignore all .env files
+.env
+client/.env
+server/.env
+
+# Ignore dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Ignore build
+client/build/
+server/build/
