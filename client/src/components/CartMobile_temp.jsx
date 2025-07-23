@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import { FaCartShopping } from 'react-icons/fa6';
 import { FaCaretRight } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
-import { useGlobalContext } from '../Provider/GlobalProvider'; // ✅ make sure this path is correct
-import {DisplayPriceInRupees} from '../utils/DisplayPriceInRupees'; // ✅ adjust this path if needed
+import { useGlobalContext } from '../provider/GlobalProvider'; // Correct import for hook
+import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees';
 
 const CartMobileLink = () => {
+  // Use the hook, not the provider component itself
   const { totalPrice, totalQty } = useGlobalContext();
   const cartItem = useSelector(state => state.cartItem.cart);
 
