@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaCartShopping } from 'react-icons/fa6';
 import { FaCaretRight } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
-import { useGlobalContext } from '../provider/GlobalProvider'; // Correct import for hook
+import { useGlobalContext } from '../provider/GlobalProvider';
 import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees';
 
 const CartMobileLink = () => {
