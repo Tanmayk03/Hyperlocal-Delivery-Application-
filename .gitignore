@@ -11,3 +11,4 @@ server/node_modules/
 # Ignore build
 client/build/
 server/build/
+bfg.jar

@@ -196,6 +196,8 @@ export async function getOrderDetailsController(req, res) {
       data: orders,
     });
   } catch (error) {
+    console.error("Error fetching orders:", error);  // <== this logs details on backend console
+
     res.status(500).json({
       message: error.message || "Failed to fetch orders",
       error: true,
@@ -203,3 +205,4 @@ export async function getOrderDetailsController(req, res) {
     });
   }
 }
+

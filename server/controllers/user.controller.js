@@ -156,13 +156,13 @@ export async function loginController(req, res) {
     }
 
     // Check for email verification
-    if (!user.verify_email) {
-      return res.status(400).json({
-        message: "Please verify your email first",
-        error: true,
-        success: false
-      });
-    }
+   // if (!user.verify_email) {
+     // return res.status(400).json({
+      //  message: "Please verify your email first",
+      //  error: true,
+       // success: false
+      //});
+   // }
 
     if (user.status !== "Active") {
       return res.status(400).json({
