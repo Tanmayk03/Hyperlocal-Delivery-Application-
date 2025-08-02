@@ -66,23 +66,34 @@ https://blinkit-full-stack-d5vp.vercel.app/
 
 ## 📁 Folder Structure
 blinkit-fullstack/
-│
-├── client/ # React frontend
-│ ├── public/
-│ └── src/
-│ ├── components/
-│ ├── pages/
-│ ├── redux/
-│ ├── utils/
-│ └── ...
-│
-├── server/ # Express backend
-│ ├── controllers/
-│ ├── routes/
-│ ├── middleware/
-│ └── ...
-│
-└── README.md
+client/
+├── public/
+│   ├── index.html
+│   └── favicon.ico
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── App.js
+│   └── index.js
+├── package.json
+└── .env
+server/
+├── config/
+│   ├── db.js
+│   └── config.js
+├── controllers/
+│   ├── userController.js
+│   └── productController.js
+├── models/
+│   ├── User.js
+│   └── Product.js
+├── routes/
+│   ├── userRoutes.js
+│   └── productRoutes.js
+├── middleware/
+│   └── authMiddleware.js
+├── server.js
+└── package.json
 ---
 ## 📚 Learnings
 
