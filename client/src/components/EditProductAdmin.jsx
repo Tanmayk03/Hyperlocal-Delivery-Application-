@@ -342,24 +342,37 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
 
               {/* Additional Fields */}
               {Object.keys(data.more_details).map((key, index) => (
-                <div key={key + index} className='grid gap-1'>
-                  <label htmlFor={key} className='font-medium'>{key}</label>
-                  <input
-                    id={key}
-                    type='text'
-                    value={data.more_details[key]}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setData(prev => ({
-                        ...prev,
-                        more_details: { ...prev.more_details, [key]: value }
-                      }));
-                    }}
-                    required
-                    className='bg-blue-50 p-2 outline-none border focus-within:border-primary-200 rounded'
-                  />
-                </div>
-              ))}
+  <div key={key + index} className='grid gap-1 relative'>
+    <label htmlFor={key} className='font-medium'>{key}</label>
+    <input
+      id={key}
+      type='text'
+      value={data.more_details[key]}
+      onChange={(e) => {
+        const value = e.target.value;
+        setData(prev => ({
+          ...prev,
+          more_details: { ...prev.more_details, [key]: value }
+        }));
+      }}
+      required
+      className='bg-blue-50 p-2 outline-none border focus-within:border-primary-200 rounded'
+    />
+    <button
+      type="button"
+      onClick={() => {
+        const newDetails = { ...data.more_details };
+        delete newDetails[key];
+        setData(prev => ({ ...prev, more_details: newDetails }));
+      }}
+      className="absolute top-0 right-0 mt-1 mr-1 text-red-500 hover:text-red-700"
+      aria-label={`Delete ${key} field`}
+    >
+      <MdDelete />
+    </button>
+  </div>
+))}
+
 
               <button
                 type="button"
