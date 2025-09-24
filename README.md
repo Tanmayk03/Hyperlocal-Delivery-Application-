@@ -1,4 +1,4 @@
-# 🛒 HyperDelivery Full Stack Clone
+# 🛒 HyperDelivery Application
 
 A full-stack e-commerce web application inspired by modern grocery delivery platforms, developed during my internship at Decrypton. This project simulates a real-world online grocery shopping experience with features like product listings, search, cart, checkout, authentication, and payment integration.
 
