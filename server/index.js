@@ -22,7 +22,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: [process.env.FRONTEND_URL || 'http://localhost:5173', 'https://hyperlocal-delivery-application-d5vp.vercel.app'],
   credentials: true
 }));
 app.use(express.json());
