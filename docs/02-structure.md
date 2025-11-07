@@ -1,6 +1,6 @@
 # Project Structure
 
-The Blinkit Full-Stack Clone is organized into two main folders: `client/` for the frontend and `server/` for the backend. Here's a complete breakdown:
+Hyper Delivery Application is organized into two main folders: `client/` for the frontend and `server/` for the backend. Here's a complete breakdown:
 
 ## 📁 Client Folder Structure
 ```plaintext
@@ -54,6 +54,7 @@ server/
 - **server.js**: Entry point for the backend server.
 - **package.json**: Project metadata and dependencies.
 ## 🗂️ Additional Notes
+
 - Ensure that both `client/` and `server/` have their own `package.json` files for managing dependencies.
 - Use environment variables to manage sensitive information like database URIs and API keys.
 - The project follows a modular structure, making it easy to maintain and scale.

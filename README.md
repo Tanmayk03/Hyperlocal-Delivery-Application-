@@ -4,7 +4,7 @@ A full-stack e-commerce web application inspired by Blinkit, developed during my
 
 ## 🚀 Live Demo
 
-https://blinkit-full-stack-d5vp.vercel.app/
+https://hyperlocal-delivery-application-d5vp.vercel.app/
 
 ---
 

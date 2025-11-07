@@ -1,6 +1,6 @@
 # Introduction
 
-This is a full-stack e-commerce web application inspired by Blinkit, built using the MERN stack: **MongoDB, Express.js, React.js, and Node.js**.
+This is a full-stack e-commerce web application inspired by Ecommerce, built using the MERN stack: **MongoDB, Express.js, React.js, and Node.js**.
 
 It provides a real-world online shopping experience, including both customer and admin functionalities.
 
