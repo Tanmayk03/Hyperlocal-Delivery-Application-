@@ -31,7 +31,10 @@ const GlobalProvider = ({ children, someProp }) => {
         dispatch(handleAddItemCart(responseData.data));
       }
     } catch (error) {
-      console.error(error);
+      // Silently handle 401 errors (user not logged in) and connection errors
+      if (error.response?.status !== 401 && error.code !== 'ERR_NETWORK') {
+        console.error('Cart fetch error:', error);
+      }
     }
   }, [dispatch]);
 
@@ -103,7 +106,10 @@ const GlobalProvider = ({ children, someProp }) => {
         dispatch(handleAddAddress(responseData.data));
       }
     } catch (error) {
-      // Optional silent catch
+      // Silently handle 401 errors (user not logged in) and connection errors
+      if (error.response?.status !== 401 && error.code !== 'ERR_NETWORK') {
+        console.error('Address fetch error:', error);
+      }
     }
   }, [dispatch]);
 
@@ -116,7 +122,10 @@ const GlobalProvider = ({ children, someProp }) => {
         dispatch(setOrder(responseData.data));
       }
     } catch (error) {
-      console.error(error);
+      // Silently handle 401 errors (user not logged in) and connection errors
+      if (error.response?.status !== 401 && error.code !== 'ERR_NETWORK') {
+        console.error('Order fetch error:', error);
+      }
     }
   }, [dispatch]);
 
@@ -126,16 +135,16 @@ const GlobalProvider = ({ children, someProp }) => {
     fetchOrder();
   }, [user, fetchCartItem, fetchAddress, fetchOrder]);
 
-  // Memoize context value
+  // Memoize context value - ensure it's never null
   const contextValue = useMemo(() => ({
     fetchCartItem,
     updateCartItem,
     deleteCartItem,
     fetchAddress,
     fetchOrder,
-    totalPrice,
-    totalQty,
-    notDiscountTotalPrice,
+    totalPrice: totalPrice || 0,
+    totalQty: totalQty || 0,
+    notDiscountTotalPrice: notDiscountTotalPrice || 0,
     handleLogoutOut,
     someProp,
   }), [

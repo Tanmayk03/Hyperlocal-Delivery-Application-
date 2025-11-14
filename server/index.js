@@ -20,16 +20,43 @@ import orderRouter from './route/order.route.js';
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: [process.env.FRONTEND_URL || 'http://localhost:5173', 'https://hyperlocal-delivery-application-d5vp.vercel.app'],
-  credentials: true
-}));
+// CORS Configuration
+const allowedOrigins = [
+  'http://localhost:5173',
+  process.env.FRONTEND_URL,
+  'https://hyperlocal-delivery-application-d5vp.vercel.app'
+].filter(Boolean); // Remove any undefined values
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, Postman, or curl requests)
+    if (!origin) {
+      return callback(null, true);
+    }
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.warn(`CORS blocked origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
+
+// Apply CORS middleware - MUST be before other middleware
+// This automatically handles preflight OPTIONS requests
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(helmet({
-  crossOriginResourcePolicy: false
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  crossOriginEmbedderPolicy: false
 }));
 
 // Routes

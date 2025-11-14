@@ -23,11 +23,13 @@ export default function App() {
       const userData = await fetchUserDetails();
       if (userData?.data?._id) {
         dispatch(setUserDetails(userData.data));
-      } else {
-        console.warn("User not logged in or token expired");
       }
+      // Silently handle case when user is not logged in
     } catch (error) {
-      console.error("Failed to fetch user:", error);
+      // Only log unexpected errors (not connection errors or 401)
+      if (error.response?.status !== 401 && error.code !== 'ERR_NETWORK') {
+        console.error("Failed to fetch user:", error);
+      }
     }
   };
 
@@ -41,7 +43,10 @@ export default function App() {
         dispatch(setAllCategory(responseData.data));
       }
     } catch (error) {
-      console.error("Failed to fetch categories:", error);
+      // Only log non-connection errors
+      if (error.code !== 'ERR_NETWORK') {
+        console.error("Failed to fetch categories:", error);
+      }
     } finally {
       dispatch(setLoadingCategory(false));
     }
@@ -56,7 +61,10 @@ export default function App() {
         dispatch(setAllSubCategory(responseData.data));
       }
     } catch (error) {
-      console.error("Failed to fetch subcategories:", error);
+      // Only log non-connection errors
+      if (error.code !== 'ERR_NETWORK') {
+        console.error("Failed to fetch subcategories:", error);
+      }
     }
   };
 

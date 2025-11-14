@@ -8,16 +8,17 @@ import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees';
 
 const CartMobileLink = () => {
   // Use the hook, not the provider component itself
-  const { totalPrice, totalQty } = useGlobalContext();
+  const globalContext = useGlobalContext();
+  const { totalPrice = 0, totalQty = 0 } = globalContext || {};
   const cartItem = useSelector(state => state.cartItem.cart);
 
   return (
     <>
       {cartItem[0] && (
         <div className='fixed bottom-4 left-1/2 transform -translate-x-1/2 w-[90%] z-50'>
-          <div className='bg-green-600 px-2 py-1 rounded text-neutral-100 text-sm flex items-center justify-between gap-3 lg:hidden shadow-md'>
+          <div className='bg-gray-800 px-2 py-1 rounded-xl text-white text-sm flex items-center justify-between gap-3 lg:hidden shadow-lg'>
             <div className='flex items-center gap-2'>
-              <div className='p-2 bg-green-500 rounded w-fit'>
+              <div className='p-2 bg-gray-700 rounded-lg w-fit'>
                 <FaCartShopping />
               </div>
               <div className='text-xs'>

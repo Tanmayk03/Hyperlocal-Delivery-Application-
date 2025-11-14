@@ -22,7 +22,8 @@ Axios.interceptors.response.use(
     },
     async(error) => {
        let originalRequest = error.config;
-       if( error.response.status === 401 && !originalRequest.retry) {
+       // Check if error.response exists before accessing its properties
+       if( error.response && error.response.status === 401 && !originalRequest.retry) {
             originalRequest.retry = true;
            const refreshToken = localStorage.getItem('refreshToken');
            if(refreshToken){
@@ -30,6 +31,10 @@ Axios.interceptors.response.use(
             if(newAccessToken){
                 originalRequest.headers.Authorization= `Bearer ${newAccessToken}`;
                 return Axios(originalRequest);
+            } else {
+                // Refresh failed, clear tokens
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
             }
            }
         }
@@ -48,7 +53,13 @@ const refreshAccessToken = async (refreshToken) => {
         localStorage.setItem('accessToken', accessToken);
         return accessToken;
     }catch (error) {
-        console.log(error);
+        // If refresh token is invalid (403) or expired, clear tokens
+        if (error.response?.status === 403 || error.response?.status === 401) {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+        }
+        // Don't log expected authentication errors
+        return null;
     }
 }
 export default Axios;

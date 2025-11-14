@@ -11,7 +11,8 @@ import { FaMinus, FaPlus } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom'; // ✅ Add this
 
 const AddToCartButton = ({ data }) => {
-    const { fetchCartItem, updateCartItem, deleteCartItem } = useGlobalContext();
+    const globalContext = useGlobalContext();
+    const { fetchCartItem, updateCartItem, deleteCartItem } = globalContext || {};
     const [loading, setLoading] = useState(false);
     const cartItem = useSelector(state => state.cartItem.cart);
     const [isAvailableCart, setIsAvailableCart] = useState(false);
@@ -95,18 +96,18 @@ const AddToCartButton = ({ data }) => {
             {
                 isAvailableCart ? (
                     <div className='flex w-full h-full'>
-                        <button onClick={decreaseQty} className='bg-green-600 hover:bg-green-700 text-white flex-1 w-full p-1 rounded flex items-center justify-center'>
+                        <button onClick={decreaseQty} className='bg-gray-800 hover:bg-gray-900 text-white flex-1 w-full p-1 rounded-lg flex items-center justify-center transition-all shadow-sm hover:shadow-md'>
                             <FaMinus />
                         </button>
 
-                        <p className='flex-1 w-full font-semibold px-1 flex items-center justify-center'>{qty}</p>
+                        <p className='flex-1 w-full font-semibold px-1 flex items-center justify-center text-gray-700'>{qty}</p>
 
-                        <button onClick={increaseQty} className='bg-green-600 hover:bg-green-700 text-white flex-1 w-full p-1 rounded flex items-center justify-center'>
+                        <button onClick={increaseQty} className='bg-gray-800 hover:bg-gray-900 text-white flex-1 w-full p-1 rounded-lg flex items-center justify-center transition-all shadow-sm hover:shadow-md'>
                             <FaPlus />
                         </button>
                     </div>
                 ) : (
-                    <button onClick={handleAddToCart} className='bg-green-600 hover:bg-green-700 text-white px-2 lg:px-4 py-1 rounded'>
+                    <button onClick={handleAddToCart} className='bg-gray-800 hover:bg-gray-900 text-white px-2 lg:px-4 py-1 rounded-lg shadow-sm hover:shadow-md transition-all'>
                         {loading ? <Loading /> : "Add"}
                     </button>
                 )

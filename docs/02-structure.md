@@ -53,6 +53,7 @@ server/
 - **middleware/**: Custom middleware functions.
 - **server.js**: Entry point for the backend server.
 - **package.json**: Project metadata and dependencies.
+
 ## 🗂️ Additional Notes
 
 - Ensure that both `client/` and `server/` have their own `package.json` files for managing dependencies.
