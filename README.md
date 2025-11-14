@@ -12,7 +12,7 @@ https://hyperlocal-delivery-application-d5vp.vercel.app/
 
 ### 🏠 Home Page
 
-<img width="1332" height="650" alt="image" src="https://github.com/user-attachments/assets/3e671b64-f98c-4829-b39d-c408c8ba5965" />
+<img width="1330" height="658" alt="image" src="https://github.com/user-attachments/assets/ffc03400-c41f-4620-9390-4467aeda64b7" />
 
 ### 📦 Product Listing
 
