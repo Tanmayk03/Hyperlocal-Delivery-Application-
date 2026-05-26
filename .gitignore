@@ -13,9 +13,7 @@ client/build/
 server/build/
 bfg.jar
 
-# Ignore local catalog images
-client/public/images/
-
 # Ignore duplicate folder
 HyperLocal-Delivery-Application/
+
 
