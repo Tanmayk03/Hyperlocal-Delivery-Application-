@@ -12,23 +12,27 @@ https://hyperlocal-delivery-application-d5vp.vercel.app/
 
 ### 🏠 Home Page
 
-<img width="1332" height="650" alt="image" src="https://github.com/user-attachments/assets/3e671b64-f98c-4829-b39d-c408c8ba5965" />
+<img width="1330" height="658" alt="image" src="https://github.com/user-attachments/assets/ffc03400-c41f-4620-9390-4467aeda64b7" />
 
 ### 📦 Product Listing
 
-<img width="1336" height="649" alt="image" src="https://github.com/user-attachments/assets/59c226af-1576-4732-a2e1-4c0f375d8589" />
+<img width="1332" height="644" alt="image" src="https://github.com/user-attachments/assets/25dca91c-3a57-479d-9ad6-f8c37f2da97b" />
+
 
 ### 🛒 Cart Page
 
-<img width="1332" height="646" alt="image" src="https://github.com/user-attachments/assets/b046983e-df8c-4b87-9db4-e0e30ffe48ff" />
+<img width="1324" height="640" alt="image" src="https://github.com/user-attachments/assets/f777ec49-9a0c-4071-aaf7-86fb2453c4a4" />
+
 
 ### 💳 Checkout Page
 
-<img width="1341" height="637" alt="image" src="https://github.com/user-attachments/assets/10f82283-5823-4319-96f7-9980451364bd" />
+<img width="1343" height="627" alt="image" src="https://github.com/user-attachments/assets/af94b82a-46dc-4def-aef1-2ca862a9657e" />
+
 
 ### 🔐 Login / Signup
 
-<img width="1328" height="650" alt="image" src="https://github.com/user-attachments/assets/01297432-4098-4f91-8e75-2e665822a219" />
+<img width="1315" height="624" alt="image" src="https://github.com/user-attachments/assets/0fb754c5-72ed-443c-b0c5-4ad15f1ca4f6" />
+
 
 ---
 
