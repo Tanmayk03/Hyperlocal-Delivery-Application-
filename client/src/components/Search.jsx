@@ -67,7 +67,7 @@ const Search = () => {
     }
 
   return (
-    <div className='w-full min-w-[300px] lg:min-w-[420px] h-11 lg:h-12 rounded-xl border-2 border-gray-200 overflow-hidden flex items-center text-gray-500 bg-white shadow-sm group focus-within:border-gray-400 focus-within:shadow-md transition-all duration-300 hover:shadow-md'>
+    <div className='w-full min-w-[150px] sm:min-w-[300px] lg:min-w-[420px] h-11 lg:h-12 rounded-xl border-2 border-gray-200 overflow-hidden flex items-center text-gray-500 bg-white shadow-sm group focus-within:border-gray-400 focus-within:shadow-md transition-all duration-300 hover:shadow-md'>
         <div>
             {
                 (isMobile && isSearchPage ) ? (

@@ -26,14 +26,15 @@ const CardProduct = ({data}) => {
         return;
       }
 
-      // Add a small random delay (0 to 800ms) for mobile view auto-animation to stagger cycles
-      const delay = isMobile && !isHovered ? Math.random() * 800 : 0;
+      // Calm animation cycle settings: 2s on hover, 4s auto-play on mobile with up to 2.5s initial stagger delay
+      const cycleTime = isMobile && !isHovered ? 4000 : 2000;
+      const delay = isMobile && !isHovered ? Math.random() * 2500 : 0;
       let interval;
 
       const startInterval = () => {
         interval = setInterval(() => {
           setCurrentImageIndex((prev) => (prev + 1) % data.image.length);
-        }, 1500);
+        }, cycleTime);
       };
 
       const timeout = setTimeout(startInterval, delay);
