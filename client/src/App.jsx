@@ -74,6 +74,11 @@ export default function App() {
     fetchSubCategory();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+
   return (
     <GlobalProvider> 
       <Header/>

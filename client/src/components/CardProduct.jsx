@@ -10,22 +10,39 @@ import toast from 'react-hot-toast'
 import { useState } from 'react'
 import { useGlobalContext } from '../provider/GlobalProvider'
 import AddToCartButton from './AddToCartButton'
+import useMobile from '../hooks/useMobile'
 
 const CardProduct = ({data}) => {
     const url = `/product/${valideURLConvert(data.name)}-${data._id}`
     const [loading,setLoading] = useState(false)
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
     const [isHovered, setIsHovered] = useState(false)
+    const [isMobile] = useMobile()
 
     React.useEffect(() => {
-      if (!isHovered || !data?.image || data.image.length <= 1) return;
+      if (!data?.image || data.image.length <= 1) return;
+      if (!isHovered && !isMobile) {
+        setCurrentImageIndex(0);
+        return;
+      }
 
-      const interval = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % data.image.length);
-      }, 1500);
+      // Add a small random delay (0 to 800ms) for mobile view auto-animation to stagger cycles
+      const delay = isMobile && !isHovered ? Math.random() * 800 : 0;
+      let interval;
 
-      return () => clearInterval(interval);
-    }, [isHovered, data?.image]);
+      const startInterval = () => {
+        interval = setInterval(() => {
+          setCurrentImageIndex((prev) => (prev + 1) % data.image.length);
+        }, 1500);
+      };
+
+      const timeout = setTimeout(startInterval, delay);
+
+      return () => {
+        clearTimeout(timeout);
+        if (interval) clearInterval(interval);
+      };
+    }, [isHovered, isMobile, data?.image]);
 
     const handleMouseEnter = () => setIsHovered(true);
     const handleMouseLeave = () => {
@@ -57,7 +74,7 @@ const CardProduct = ({data}) => {
         )}
 
         {/* Pager Dots */}
-        {Array.isArray(data?.image) && data.image.length > 1 && isHovered && (
+        {Array.isArray(data?.image) && data.image.length > 1 && (isHovered || isMobile) && (
           <div className="absolute bottom-1.5 left-0 right-0 flex justify-center gap-1 z-20 transition-all duration-300 bg-white/20 backdrop-blur-[1px] py-1 max-w-[60%] mx-auto rounded-full">
             {data.image.map((_, idx) => (
               <span 

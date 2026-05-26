@@ -43,21 +43,17 @@ const Header = () => {
         
         {/* Logo */}
         {!(isSearchPage && isMobile) && (
-          <div className="h-full">
+          <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <img
                 src={logo}
                 alt="logo"
-                width={170}
-                height={60}
-                className="hidden lg:block"
+                className="hidden lg:block h-12 w-auto object-contain"
               />
               <img
                 src={logo}
                 alt="logo"
-                width={120}
-                height={70}
-                className="lg:hidden"
+                className="lg:hidden h-9 w-auto object-contain"
               />
             </Link>
           </div>
