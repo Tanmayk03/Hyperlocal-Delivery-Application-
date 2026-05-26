@@ -60,27 +60,42 @@ export async function paymentController(req, res) {
     const { list_items, totalAmt, addressId, subTotalAmt } = req.body;
     const user = await UserModel.findById(userId);
 
-    // We don't need to use totalAmt or subTotalAmt here because this controller just creates Stripe session.
+    const frontendUrl = (process.env.FRONTEND_URL || "http://localhost:5173").trim();
 
-    const line_items = list_items.map((item) => ({
-      price_data: {
-        currency: "inr",
-        product_data: {
-          name: item.productId.name,
-          images: item.productId.image,
-          metadata: {
-            productId: item.productId._id.toString(),
+    const line_items = list_items.map((item) => {
+      // Map images to absolute URLs
+      const images = (item.productId.image || [])
+        .map((img) => {
+          if (!img) return null;
+          if (img.startsWith("http://") || img.startsWith("https://")) {
+            return img;
+          }
+          const baseUrl = frontendUrl.endsWith("/") ? frontendUrl.slice(0, -1) : frontendUrl;
+          const imgPath = img.startsWith("/") ? img : `/${img}`;
+          return `${baseUrl}${imgPath}`;
+        })
+        .filter(Boolean);
+
+      return {
+        price_data: {
+          currency: "inr",
+          product_data: {
+            name: item.productId.name,
+            images: images.length > 0 ? images : ["https://images.unsplash.com/photo-1542291026-7eec264c27ff"],
+            metadata: {
+              productId: item.productId._id.toString(),
+            },
           },
+          unit_amount:
+            priceWithDiscount(item.productId.price, item.productId.discount) * 100,
         },
-        unit_amount:
-          priceWithDiscount(item.productId.price, item.productId.discount) * 100,
-      },
-      adjustable_quantity: {
-        enabled: true,
-        minimum: 1,
-      },
-      quantity: item.quantity,
-    }));
+        adjustable_quantity: {
+          enabled: true,
+          minimum: 1,
+        },
+        quantity: item.quantity,
+      };
+    });
 
     const session = await Stripe.checkout.sessions.create({
       submit_type: "pay",
@@ -88,14 +103,14 @@ export async function paymentController(req, res) {
       payment_method_types: ["card"],
       customer_email: user.email,
       metadata: {
-        userId: userId,
-        addressId: addressId,
-        subTotalAmt: subTotalAmt?.toString(), // optionally add to metadata as string
-        totalAmt: totalAmt?.toString(),
+        userId: userId?.toString() || "",
+        addressId: addressId?.toString() || "",
+        subTotalAmt: subTotalAmt?.toString() || "0",
+        totalAmt: totalAmt?.toString() || "0",
       },
       line_items,
-      success_url: `${process.env.FRONTEND_URL}/success`,
-      cancel_url: `${process.env.FRONTEND_URL}/cancel`,
+      success_url: `${frontendUrl}/success`,
+      cancel_url: `${frontendUrl}/cancel`,
     });
 
     res.status(200).json(session);

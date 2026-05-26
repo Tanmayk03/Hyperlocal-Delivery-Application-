@@ -9,6 +9,7 @@ import SummaryApi from '../common/SummaryApi';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
+import { IoLockClosedOutline } from 'react-icons/io5';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY); // Load once
 
@@ -16,13 +17,17 @@ const CheckoutPage = () => {
   const { notDiscountTotalPrice, totalPrice, totalQty, fetchCartItem, fetchOrder } = useGlobalContext();
   const [openAddress, setOpenAddress] = useState(false);
   const addressList = useSelector(state => state.addresses.addressList);
-  const [selectAddress, setSelectAddress] = useState(0);
+  const [selectAddress, setSelectAddress] = useState(null);
   const cartItemsList = useSelector(state => state.cartItem.cart);
   const navigate = useNavigate();
 
   const deliveryCharge = totalPrice >= 300 ? 0 : (totalPrice >= 150 ? 20 : 40);
 
   const handleCashOnDelivery = async () => {
+    if (selectAddress === null || !addressList[selectAddress]) {
+      toast.error("Please select a delivery address.");
+      return;
+    }
     try {
       const response = await Axios({
         ...SummaryApi.CashOnDeliveryOrder,
@@ -46,6 +51,10 @@ const CheckoutPage = () => {
   };
 
   const handleOnlinePayment = async () => {
+    if (selectAddress === null || !addressList[selectAddress]) {
+      toast.error("Please select a delivery address.");
+      return;
+    }
     const toastId = toast.loading('Redirecting to payment...');
     try {
       const stripe = await stripePromise;
@@ -95,14 +104,14 @@ const CheckoutPage = () => {
                   htmlFor={`address${index}`}
                   className="cursor-pointer"
                 >
-                  <div className="border rounded p-3 flex gap-3 hover:bg-blue-50">
+                  <div className={`border rounded p-3 flex gap-3 hover:bg-blue-50 transition-all duration-200 ${selectAddress === index ? 'border-green-600 bg-green-50/20 ring-1 ring-green-600' : 'border-slate-200 bg-white'}`}>
                     <input
                       id={`address${index}`}
                       type="radio"
                       value={index}
                       onChange={(e) => setSelectAddress(Number(e.target.value))}
                       name="address"
-                      checked={+selectAddress === index}
+                      checked={selectAddress === index}
                     />
                     <div>
                       <p>{address.address_line}</p>
@@ -152,22 +161,37 @@ const CheckoutPage = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 mt-4">
-            <button
-              type="button"
-              className="py-2 px-4 bg-green-600 hover:bg-green-700 rounded text-white font-semibold"
-              onClick={handleOnlinePayment}
-            >
-              Online Payment
-            </button>
-            <button
-              type="button"
-              className="py-2 px-4 border-2 border-green-600 font-semibold text-green-600 hover:bg-green-600 hover:text-white"
-              onClick={handleCashOnDelivery}
-            >
-              Cash on Delivery
-            </button>
-          </div>
+          {selectAddress !== null && addressList[selectAddress] ? (
+            <div className="flex flex-col gap-4 mt-4 border-t pt-4 border-slate-100 animate-fadeIn">
+              <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider">Select Payment Option</p>
+              <button
+                type="button"
+                className="py-2.5 px-4 bg-green-600 hover:bg-green-700 rounded text-white font-semibold transition-all duration-200 shadow-sm flex items-center justify-center gap-2"
+                onClick={handleOnlinePayment}
+              >
+                Online Payment
+              </button>
+              <button
+                type="button"
+                className="py-2.5 px-4 border-2 border-green-600 font-semibold text-green-600 hover:bg-green-600 hover:text-white rounded transition-all duration-200 flex items-center justify-center gap-2"
+                onClick={handleCashOnDelivery}
+              >
+                Cash on Delivery
+              </button>
+            </div>
+          ) : (
+            <div className="mt-4 p-5 bg-slate-50 border border-dashed border-slate-200 rounded-lg flex flex-col items-center justify-center text-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                <IoLockClosedOutline size={22} className="text-slate-500" />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-slate-700">Payment Option Locked</p>
+                <p className="text-xs text-slate-400 mt-1 max-w-[240px] mx-auto">
+                  Please select or add a delivery address on the left to unlock payment options.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
