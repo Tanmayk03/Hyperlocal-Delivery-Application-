@@ -14,14 +14,61 @@ import AddToCartButton from './AddToCartButton'
 const CardProduct = ({data}) => {
     const url = `/product/${valideURLConvert(data.name)}-${data._id}`
     const [loading,setLoading] = useState(false)
+    const [currentImageIndex, setCurrentImageIndex] = useState(0)
+    const [isHovered, setIsHovered] = useState(false)
+
+    React.useEffect(() => {
+      if (!isHovered || !data?.image || data.image.length <= 1) return;
+
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prev) => (prev + 1) % data.image.length);
+      }, 1500);
+
+      return () => clearInterval(interval);
+    }, [isHovered, data?.image]);
+
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => {
+      setIsHovered(false);
+      setCurrentImageIndex(0);
+    };
   
   return (
-    <Link to={url} className='border py-2 lg:p-4 grid gap-1 lg:gap-3 min-w-36 lg:min-w-52 rounded cursor-pointer bg-white' >
-      <div className='min-h-20 w-full max-h-24 lg:max-h-32 rounded overflow-hidden'>
+    <Link 
+      to={url} 
+      className='group border py-2 lg:p-4 grid gap-1 lg:gap-3 min-w-36 lg:min-w-52 rounded cursor-pointer bg-white transition-all duration-300 hover:shadow-md hover:border-gray-300'
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className='min-h-20 w-full h-24 lg:h-32 rounded overflow-hidden relative flex items-center justify-center bg-white'>
+        {Array.isArray(data?.image) && data.image.length > 0 ? (
+          data.image.map((imgUrl, idx) => (
             <img 
-                src={data.image[0]}
-                className='w-full h-full object-scale-down lg:scale-125'
+              key={idx}
+              src={imgUrl}
+              alt={data.name}
+              className={`absolute w-full h-full object-scale-down lg:scale-110 transition-opacity duration-500 ease-in-out ${
+                idx === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
             />
+          ))
+        ) : (
+          <div className="bg-gray-100 w-full h-full flex items-center justify-center text-xs text-gray-400">No Image</div>
+        )}
+
+        {/* Pager Dots */}
+        {Array.isArray(data?.image) && data.image.length > 1 && isHovered && (
+          <div className="absolute bottom-1.5 left-0 right-0 flex justify-center gap-1 z-20 transition-all duration-300 bg-white/20 backdrop-blur-[1px] py-1 max-w-[60%] mx-auto rounded-full">
+            {data.image.map((_, idx) => (
+              <span 
+                key={idx}
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                  idx === currentImageIndex ? 'bg-green-600 scale-125' : 'bg-gray-350/70'
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
       <div className='flex items-center gap-2 flex-wrap'>
         <div className='rounded-full text-xs w-fit px-2 py-1 text-gray-600 bg-gray-100 font-medium'>

@@ -3,6 +3,7 @@ import { IoSearch } from "react-icons/io5";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
 import { FaArrowLeft } from "react-icons/fa";
+import { BiMicrophone, BiMicrophoneOff } from 'react-icons/bi';
 import useMobile from '../hooks/useMobile';
 
 
@@ -13,6 +14,41 @@ const Search = () => {
     const [ isMobile ] = useMobile()
     const params = useLocation()
     const searchText = params.search.slice(3)
+    const [isListening, setIsListening] = useState(false)
+
+    const handleVoiceSearch = () => {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert("Voice search is not supported in this browser. Try Chrome or Edge!");
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = () => {
+            setIsListening(true);
+        };
+
+        recognition.onend = () => {
+            setIsListening(false);
+        };
+
+        recognition.onerror = (event) => {
+            console.error("Speech recognition error", event.error);
+            setIsListening(false);
+        };
+
+        recognition.onresult = (event) => {
+            const speechToText = event.results[0][0].transcript;
+            const url = `/search?q=${encodeURIComponent(speechToText)}`;
+            navigate(url);
+        };
+
+        recognition.start();
+    };
 
     useEffect(()=>{
         const isSearch = location.pathname === "/search"
@@ -98,6 +134,28 @@ const Search = () => {
             }
         </div>
         
+        {/* Voice Search Button */}
+        <div className='flex items-center justify-center h-full pr-3'>
+            <button 
+                type="button" 
+                onClick={handleVoiceSearch}
+                className={`p-2 rounded-full transition-all duration-300 relative ${
+                    isListening 
+                    ? 'bg-red-500 text-white animate-pulse' 
+                    : 'text-gray-400 hover:text-green-600 hover:bg-slate-50'
+                }`}
+                title="Search by voice"
+            >
+                {isListening ? (
+                    <>
+                        <BiMicrophoneOff size={18} />
+                        <span className="absolute -inset-1 rounded-full border-2 border-red-500 animate-ping opacity-75"></span>
+                    </>
+                ) : (
+                    <BiMicrophone size={18} />
+                )}
+            </button>
+        </div>
     </div>
   )
 }

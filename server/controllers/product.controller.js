@@ -67,9 +67,10 @@ export const getProductController = async(request,response)=>{
         }
 
         const query = search ? {
-            $text : {
-                $search : search
-            }
+            $or: [
+                { name: { $regex: search, $options: "i" } },
+                { description: { $regex: search, $options: "i" } }
+            ]
         } : {}
 
         const skip = (page - 1) * limit
@@ -277,9 +278,10 @@ export const searchProduct = async(request,response)=>{
         }
 
         const query = search ? {
-            $text : {
-                $search : search
-            }
+            $or: [
+                { name: { $regex: search, $options: "i" } },
+                { description: { $regex: search, $options: "i" } }
+            ]
         } : {}
 
         const skip = ( page - 1) * limit

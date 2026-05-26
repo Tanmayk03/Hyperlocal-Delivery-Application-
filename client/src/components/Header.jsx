@@ -38,7 +38,7 @@ const Header = () => {
   };
 
   return (
-    <header className="h-24 lg:h-20 sticky top-0 z-40 flex flex-col justify-center gap-1 bg-gradient-to-r from-white via-gray-50 to-white shadow-lg border-b-2 border-gray-300">
+    <header className="h-24 lg:h-20 sticky top-0 z-40 flex flex-col justify-center gap-1 bg-white/80 backdrop-blur-md shadow-md border-b border-gray-200/50 transition-all duration-300">
       <div className="container mx-auto flex items-center px-2 justify-between">
         
         {/* Logo */}

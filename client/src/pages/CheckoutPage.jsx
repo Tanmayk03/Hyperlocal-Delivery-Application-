@@ -20,6 +20,8 @@ const CheckoutPage = () => {
   const cartItemsList = useSelector(state => state.cartItem.cart);
   const navigate = useNavigate();
 
+  const deliveryCharge = totalPrice >= 300 ? 0 : (totalPrice >= 150 ? 20 : 40);
+
   const handleCashOnDelivery = async () => {
     try {
       const response = await Axios({
@@ -28,7 +30,7 @@ const CheckoutPage = () => {
           list_items: cartItemsList,
           addressId: addressList[selectAddress]?._id,
           subTotalAmt: totalPrice,
-          totalAmt: totalPrice,
+          totalAmt: totalPrice + deliveryCharge,
         }
       });
 
@@ -54,7 +56,7 @@ const CheckoutPage = () => {
           list_items: cartItemsList,
           addressId: addressList[selectAddress]?._id,
           subTotalAmt: totalPrice,
-          totalAmt: totalPrice,
+          totalAmt: totalPrice + deliveryCharge,
         }
       });
 
@@ -138,13 +140,15 @@ const CheckoutPage = () => {
               <p>Quantity</p>
               <p>{totalQty} item</p>
             </div>
-            <div className="flex justify-between ml-1">
-              <p>Delivery</p>
-              <p>Free</p>
+             <div className="flex justify-between ml-1 text-sm text-slate-600">
+              <p>Delivery Charge</p>
+              <p className={deliveryCharge === 0 ? "text-green-600 font-semibold" : ""}>
+                {deliveryCharge === 0 ? "Free" : DisplayPriceInRupees(deliveryCharge)}
+              </p>
             </div>
-            <div className="font-semibold flex justify-between ml-1">
+            <div className="font-bold flex justify-between ml-1 text-base mt-2 pt-2 border-t border-slate-150 text-slate-800">
               <p>Grand Total</p>
-              <p>{DisplayPriceInRupees(totalPrice)}</p>
+              <p>{DisplayPriceInRupees(totalPrice + deliveryCharge)}</p>
             </div>
           </div>
 
