@@ -20,7 +20,7 @@ const RiderMap = () => {
   const riderMarkerRef = useRef(null);
   const [step, setStep] = useState(0); // 0: Assigned, 1: Out for Delivery, 2: Arriving, 3: Arrived
   const [timeRemaining, setTimeRemaining] = useState(120); // 2 minutes countdown
-  
+
   useEffect(() => {
     if (!window.L) return;
     const L = window.L;
@@ -32,7 +32,7 @@ const RiderMap = () => {
       doubleClickZoom: false,
       touchZoom: false
     }).setView([26.8490, 80.9630], 14);
-    
+
     mapRef.current = map;
 
     // 2. Add Tiles (Sleek light tile style)
@@ -159,16 +159,14 @@ const RiderMap = () => {
           { label: "Arrived", stepVal: 3 }
         ].map((item) => (
           <div key={item.stepVal} className="flex flex-col items-center flex-1">
-            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
-              step >= item.stepVal 
-                ? 'bg-green-600 text-white shadow-md shadow-green-500/20' 
+            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${step >= item.stepVal
+                ? 'bg-green-600 text-white shadow-md shadow-green-500/20'
                 : 'bg-slate-200 text-slate-400'
-            }`}>
+              }`}>
               {step > item.stepVal ? <FaCheck size={10} /> : item.stepVal + 1}
             </div>
-            <span className={`text-[9px] font-bold mt-2 text-center transition-colors duration-300 ${
-              step >= item.stepVal ? 'text-slate-800' : 'text-slate-400'
-            }`}>
+            <span className={`text-[9px] font-bold mt-2 text-center transition-colors duration-300 ${step >= item.stepVal ? 'text-slate-800' : 'text-slate-400'
+              }`}>
               {item.label}
             </span>
           </div>
@@ -182,7 +180,7 @@ const RiderMap = () => {
             <FaUserCircle size={44} />
           </div>
           <div>
-            <h4 className="text-sm font-extrabold text-slate-800">Tanmay Kumar</h4>
+            <h4 className="text-sm font-extrabold text-slate-800">Sam Altman</h4>
             <div className="flex items-center gap-1.5 mt-0.5">
               <span className="text-[10px] font-bold text-slate-500 flex items-center gap-0.5">
                 <FaStar className="text-yellow-400" /> 4.9
@@ -194,8 +192,8 @@ const RiderMap = () => {
             </div>
           </div>
         </div>
-        
-        <a 
+
+        <a
           href="tel:+919876543210"
           className="bg-green-50 hover:bg-green-100 text-green-700 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm border border-green-200/50"
         >
