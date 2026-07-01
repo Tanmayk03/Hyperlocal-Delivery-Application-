@@ -5,7 +5,6 @@ A full-stack e-commerce web application inspired by modern grocery delivery plat
 ## 🚀 Live Demo
 
 https://hyperlocal-delivery-application-d5vp.vercel.app/
-
 ---
 
 ## 📸 Screenshots
